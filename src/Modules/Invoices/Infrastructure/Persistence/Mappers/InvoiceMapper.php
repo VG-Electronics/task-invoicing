@@ -10,6 +10,31 @@ use Ramsey\Uuid\Uuid;
 
 class InvoiceMapper
 {
+    public function mapToModel(Invoice $invoice): InvoiceModel
+    {
+        $model = new InvoiceModel([
+            'customer_name' => $invoice->getCustomerName(),
+            'customer_email' => $invoice->getCustomerEmail(),
+            'status' => $invoice->getStatus(),
+        ]);
+        $model->id = $invoice->getId()->toString();
+
+        return $model;
+    }
+
+    public function mapProductLineToModel(InvoiceProductLine $productLine, string $invoiceId): InvoiceProductLineModel
+    {
+        $model = new InvoiceProductLineModel([
+            'invoice_id' => $invoiceId,
+            'name'       => $productLine->getName(),
+            'price'      => $productLine->getPrice(),
+            'quantity'   => $productLine->getQuantity(),
+        ]);
+        $model->id = $productLine->getId()->toString();
+
+        return $model;
+    }
+
     public function mapToEntity(InvoiceModel $model): Invoice
     {
         $invoice = new Invoice(

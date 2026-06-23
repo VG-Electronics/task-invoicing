@@ -1,11 +1,23 @@
 # Implementation Notes
 
+This is a test recruitment task. I am not a DDD expert, so I wanted and tried my best to learn the concepts of this architecture in practice.
+
 ## Layers
 
 ### Business entities & Database models
 Invoice and InvoiceProductLine entities are separated from the database models. InvoiceRepository interface specifies the methods needed by the domain layer.
 This way the changes in the database layer don't have any impact on the domain logic, e.g. database might be changed or Eloquent can be replaced with another ORM and domain layer won't notifce it.
-InvoiceMapper is a bridge which translates database models to business entities.
+InvoiceMapper is a bridge which translates database models to business entities and vice versa.
+
+### Commands
+Actions are in the Application layer. The command-pattern was not used in this simple project to not overcomplicate the code.
+
+### DTOs
+Data Transfer Objects are used to pack a set of data and return it as a ready to use object. 
+
+### API
+The API layer is responsible for handling HTTP requests. It validates the requests and executes the commands or queries.
+However, validation is a business logic and probably should be moved to the domain layer.
 
 # Requirements
 
