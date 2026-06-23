@@ -1,3 +1,14 @@
+# Implementation Notes
+
+## Layers
+
+### Business entities & Database models
+Invoice and InvoiceProductLine entities are separated from the database models. InvoiceRepository interface specifies the methods needed by the domain layer.
+This way the changes in the database layer don't have any impact on the domain logic, e.g. database might be changed or Eloquent can be replaced with another ORM and domain layer won't notifce it.
+InvoiceMapper is a bridge which translates database models to business entities.
+
+# Requirements
+
 ## Invoice Structure:
 
 The invoice should contain the following fields:
