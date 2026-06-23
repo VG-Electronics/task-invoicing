@@ -1,0 +1,318 @@
+{
+  "info": {
+    "_postman_id": "743d9bd4-23b4-4f0b-a7b6-51c9c3e5c97e",
+    "name": "Task Invoicing API Demo - Valid Requests Only",
+    "description": "Valid demo flow for the invoice API. Create an invoice, manually set invoice_id, view it, update it, send it, simulate delivered notification webhook, then verify the invoice status.\n\nNote: POST /api/invoices returns 201 with an empty JSON object {} and does not return the created invoice_id. Manually set the collection variable `invoice_id` before running requests that require it.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "8551187"
+  },
+  "item": [
+    {
+      "name": "Create Invoice",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"customer_name\": \"John Doe\",\n  \"customer_email\": \"john@example.com\",\n  \"products\": [\n    {\n      \"name\": \"Backend implementation\",\n      \"price\": 500,\n      \"quantity\": 2\n    },\n    {\n      \"name\": \"Code review\",\n      \"price\": 250,\n      \"quantity\": 1\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/invoices",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "invoices"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Invoice With Empty Products",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"customer_name\": \"Empty Products Customer\",\n  \"customer_email\": \"empty-products@example.com\",\n  \"products\": []\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/invoices",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "invoices"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Show Invoice",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/invoices/{{invoice_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "invoices",
+            "{{invoice_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Invoice",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"customer_name\": \"John Doe Updated\",\n  \"customer_email\": \"john.updated@example.com\",\n  \"products\": [\n    {\n      \"name\": \"Backend implementation updated\",\n      \"price\": 700,\n      \"quantity\": 1\n    },\n    {\n      \"name\": \"QA session\",\n      \"price\": 150,\n      \"quantity\": 3\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/invoices/{{invoice_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "invoices",
+            "{{invoice_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Send Invoice",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/invoices/{{invoice_id}}/send",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "invoices",
+            "{{invoice_id}}",
+            "send"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Notification Webhook Delivered",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/notification/hook/delivered/{{invoice_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "notification",
+            "hook",
+            "delivered",
+            "{{invoice_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Show Invoice After Delivered",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"invoice_status is sent-to-client\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.invoice_status).to.eql(\"sent-to-client\");",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/invoices/{{invoice_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "invoices",
+            "{{invoice_id}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost/api"
+    },
+    {
+      "key": "invoice_id",
+      "value": "PUT_EXISTING_INVOICE_UUID_HERE"
+    }
+  ]
+}
