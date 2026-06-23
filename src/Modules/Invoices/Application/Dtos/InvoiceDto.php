@@ -8,14 +8,14 @@ use Modules\Invoices\Domain\Entities\Invoice;
 
 final readonly class InvoiceDto
 {
-    /** @param InvoiceProductLineDto[] $productLines */
+    /** @param InvoiceProductLineDto[] $invoice_product_lines */
     public function __construct(
-        public string $id,
-        public string $customerName,
-        public string $customerEmail,
-        public string $status,
-        public array $productLines,
-        public int $totalPrice,
+        public string $invoice_id,
+        public string $invoice_status,
+        public string $customer_name,
+        public string $customer_email,
+        public array $invoice_product_lines,
+        public int $total_price,
     ) {}
 
     public static function fromEntity(Invoice $invoice): self
@@ -26,17 +26,17 @@ final readonly class InvoiceDto
         );
 
         $totalPrice = array_sum(array_map(
-            fn(InvoiceProductLineDto $line) => $line->totalUnitPrice,
+            fn(InvoiceProductLineDto $line) => $line->total_unit_price,
             $productLines,
         ));
 
         return new self(
-            id: $invoice->getId()->toString(),
-            customerName: $invoice->getCustomerName(),
-            customerEmail: $invoice->getCustomerEmail(),
-            status: $invoice->getStatus()->value,
-            productLines: $productLines,
-            totalPrice: $totalPrice,
+            invoice_id: $invoice->getId()->toString(),
+            invoice_status: $invoice->getStatus()->value,
+            customer_name: $invoice->getCustomerName(),
+            customer_email: $invoice->getCustomerEmail(),
+            invoice_product_lines: $productLines,
+            total_price: $totalPrice,
         );
     }
 }

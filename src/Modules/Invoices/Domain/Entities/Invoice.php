@@ -55,4 +55,14 @@ class Invoice
     {
         return $this->products;
     }
+
+    public function markAsSending(): void
+    {
+        $this->status = StatusEnum::Sending;
+    }
+
+    public function markAsSentToClient(): void
+    {
+        $this->status = StatusEnum::SentToClient;
+    }
 }

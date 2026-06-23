@@ -9,21 +9,19 @@ use Modules\Invoices\Domain\Entities\InvoiceProductLine;
 final readonly class InvoiceProductLineDto
 {
     public function __construct(
-        public string $id,
-        public string $name,
-        public int $unitPrice,
+        public string $product_name,
         public int $quantity,
-        public int $totalUnitPrice,
+        public int $unit_price,
+        public int $total_unit_price,
     ) {}
 
     public static function fromEntity(InvoiceProductLine $line): self
     {
         return new self(
-            id: $line->getId()->toString(),
-            name: $line->getName(),
-            unitPrice: $line->getPrice(),
+            product_name: $line->getName(),
             quantity: $line->getQuantity(),
-            totalUnitPrice: $line->getPrice() * $line->getQuantity(),
+            unit_price: $line->getPrice(),
+            total_unit_price: $line->getPrice() * $line->getQuantity(),
         );
     }
 }

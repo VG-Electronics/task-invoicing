@@ -13,11 +13,19 @@ InvoiceMapper is a bridge which translates database models to business entities 
 Actions are in the Application layer. The command-pattern was not used in this simple project to not overcomplicate the code.
 
 ### DTOs
-Data Transfer Objects are used to pack a set of data and return it as a ready to use object. 
+Data Transfer Objects are used to pack a set of data and return it as a ready to use object with all calculations etc.
 
 ### API
 The API layer is responsible for handling HTTP requests. It validates the requests and executes the commands or queries.
 However, validation is a business logic and probably should be moved to the domain layer.
+
+## Exceptions
+Domain exceptions are stored in the Domain layer as a separate classes.
+
+## TODO in production code:
+- Retry and error status of the invoice
+- Logging the events and errors
+- Authentication
 
 # Requirements
 
