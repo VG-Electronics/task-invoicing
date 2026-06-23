@@ -7,7 +7,7 @@ use Modules\Invoices\Domain\Entities\InvoiceProductLine;
 use Modules\Invoices\Domain\Repositories\InvoiceRepository;
 use Modules\Invoices\Infrastructure\Persistence\Mappers\InvoiceMapper;
 use Modules\Invoices\Infrastructure\Persistence\Models\InvoiceModel;
-use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 readonly class EloquentInvoiceRepository implements InvoiceRepository
 {
@@ -16,7 +16,7 @@ readonly class EloquentInvoiceRepository implements InvoiceRepository
 
     }
 
-    public function getById(Uuid $id): ?Invoice
+    public function getById(UuidInterface $id): ?Invoice
     {
         $invoiceModel = InvoiceModel::query()->with('productLines')->find($id->toString());
 

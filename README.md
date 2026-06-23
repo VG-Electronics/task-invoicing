@@ -2,6 +2,11 @@
 
 This is a test recruitment task. I am not a DDD expert, so I wanted and tried my best to learn the concepts of this architecture in practice.
 
+Claude Code was used to speed up the development - I was guiding it and reviewing the changes step by step. 
+I made every architecture decision and I wrote big part of the code manually.
+
+This task me took me ~3,5 hours together with learning a bit about DDD, making decisions and testing the code.
+
 ## Layers
 
 ### Business entities & Database models
