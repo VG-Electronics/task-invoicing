@@ -38,7 +38,8 @@ final class InvoiceControllerTest extends TestCase
         ];
 
         $this->postJson(route('invoices.store'), $payload)
-            ->assertCreated();
+            ->assertCreated()
+            ->assertJsonStructure(['invoice_id']);
     }
 
     public function testStoreReturns201WithEmptyProductsArray(): void
@@ -50,7 +51,30 @@ final class InvoiceControllerTest extends TestCase
         ];
 
         $this->postJson(route('invoices.store'), $payload)
-            ->assertCreated();
+            ->assertCreated()
+            ->assertJsonStructure(['invoice_id']);
+    }
+
+    public function testStoreReturnsCreatedInvoiceId(): void
+    {
+        $payload = [
+            'customer_name'  => 'John Doe',
+            'customer_email' => 'john@example.com',
+            'products'       => [],
+        ];
+
+        $response = $this->postJson(route('invoices.store'), $payload)
+            ->assertCreated()
+            ->assertJsonStructure(['invoice_id']);
+
+        $invoiceId = $response->json('invoice_id');
+
+        $this->assertIsString($invoiceId);
+        $this->assertMatchesRegularExpression(
+            '/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i',
+            $invoiceId,
+        );
+        $this->assertDatabaseHas('invoices', ['id' => $invoiceId]);
     }
 
     public function testStoreCreatesInvoiceInDatabase(): void

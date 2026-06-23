@@ -16,7 +16,7 @@ final class CreateInvoiceCommand
         private readonly InvoiceRepository $invoiceRepository,
     ) {}
 
-    public function execute(string $customerName, string $customerEmail, array $products): void
+    public function execute(string $customerName, string $customerEmail, array $products): string
     {
         $invoice = new Invoice(
             id: Uuid::uuid4(),
@@ -36,5 +36,7 @@ final class CreateInvoiceCommand
         ));
 
         $this->invoiceRepository->createInvoice($invoice);
+
+        return $invoice->getId()->toString();
     }
 }

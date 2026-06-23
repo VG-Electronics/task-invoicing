@@ -33,13 +33,13 @@ final readonly class InvoiceController
 
     public function store(CreateInvoiceRequest $request): JsonResponse
     {
-        $this->createInvoiceCommand->execute(
+        $invoiceId = $this->createInvoiceCommand->execute(
             customerName: $request->validated('customer_name'),
             customerEmail: $request->validated('customer_email'),
-            products: $request->validated('products'),
+            products: $request->validated('products') ?? [],
         );
 
-        return new JsonResponse(data: null, status: Response::HTTP_CREATED);
+        return new JsonResponse(data: ['invoice_id' => $invoiceId], status: Response::HTTP_CREATED);
     }
 
     public function update(UpdateInvoiceRequest $request, string $id): JsonResponse
